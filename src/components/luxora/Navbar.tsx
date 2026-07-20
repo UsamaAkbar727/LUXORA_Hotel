@@ -6,11 +6,12 @@ import { HiOutlineMenuAlt3, HiX } from "react-icons/hi";
 import { FiInstagram, FiFacebook, FiTwitter } from "react-icons/fi";
 
 const navLinks = [
-  { label: "Experiences", href: "#experiences" },
+  { label: "Home", href: "#" },
+  { label: "Venue", href: "#venue" },
   { label: "Events", href: "#events" },
-  { label: "Gallery", href: "#gallery" },
-  { label: "Cocktails", href: "#cocktails" },
-  { label: "Membership", href: "#membership" },
+  { label: "Cuisine", href: "#cuisine" },
+  { label: "Drinks", href: "#drinks" },
+  { label: "Book Now", href: "#reservation" },
 ];
 
 export default function Navbar() {
@@ -37,31 +38,34 @@ export default function Navbar() {
   return (
     <>
       <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
-          scrolled
-            ? "glass-strong py-3"
-            : "bg-transparent py-5"
-        }`}
+        className="fixed top-0 left-0 right-0 z-50 flex justify-center w-full transition-all duration-500 pointer-events-none"
       >
-        <div className="max-w-[1440px] mx-auto px-6 md:px-10 lg:px-16 flex items-center justify-between">
+        <div
+          className={`w-[92%] max-w-6xl mt-6 px-6 md:px-8 py-3 rounded-full border border-luxora-gold/20 glass relative pointer-events-auto transition-all duration-500 luxury-shadow flex items-center justify-between ${
+            scrolled ? "bg-luxora-bg/85 py-2 shadow-lg border-luxora-gold/30" : "bg-luxora-bg/40 py-3"
+          }`}
+        >
+          {/* Top golden glowing line/accent at the center of the navbar */}
+          <div className="absolute top-[-1px] left-1/2 -translate-x-1/2 w-48 h-[2px] bg-gradient-to-r from-transparent via-luxora-gold/90 to-transparent blur-[0.5px]" />
+          <div className="absolute top-[-8px] left-1/2 -translate-x-1/2 w-36 h-6 bg-luxora-gold/10 blur-md rounded-full pointer-events-none" />
+
           {/* Logo */}
-          <a href="#" className="relative group">
-            <span className="font-[var(--font-playfair)] text-2xl md:text-3xl font-bold tracking-[0.2em] text-gold-gradient">
+          <a href="#" className="relative group flex items-center">
+            <span className="font-[var(--font-playfair)] text-xl md:text-2xl font-bold tracking-[0.2em] text-gold-gradient">
               LUXORA
             </span>
-            <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-gold-gradient group-hover:w-full transition-all duration-500" />
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-6 xl:gap-8">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className="relative text-sm tracking-[0.15em] uppercase text-white/70 hover:text-white transition-colors duration-300 group"
+                className="relative text-xs tracking-[0.15em] uppercase text-white/80 hover:text-luxora-gold transition-colors duration-300 group font-medium"
               >
                 {link.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-luxora-gold group-hover:w-full transition-all duration-500" />
@@ -70,26 +74,12 @@ export default function Navbar() {
           </div>
 
           {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center gap-6">
-            <div className="flex items-center gap-4">
-              <a href="#" aria-label="Instagram" className="text-white/50 hover:text-luxora-gold transition-colors duration-300">
-                <FiInstagram size={16} />
-              </a>
-              <a href="#" aria-label="Facebook" className="text-white/50 hover:text-luxora-gold transition-colors duration-300">
-                <FiFacebook size={16} />
-              </a>
-              <a href="#" aria-label="Twitter" className="text-white/50 hover:text-luxora-gold transition-colors duration-300">
-                <FiTwitter size={16} />
-              </a>
-            </div>
+          <div className="hidden lg:flex items-center">
             <a
               href="#reservation"
-              className="relative overflow-hidden px-6 py-2.5 border border-luxora-gold/50 text-luxora-gold text-sm tracking-[0.15em] uppercase rounded-sm group"
+              className="bg-gold-gradient text-black font-semibold text-xs tracking-[0.15em] uppercase px-6 py-2.5 rounded-full hover:shadow-[0_0_15px_rgba(212,175,55,0.4)] hover:scale-[1.03] transition-all duration-300"
             >
-              <span className="relative z-10 group-hover:text-luxora-bg transition-colors duration-300">
-                Reserve Table
-              </span>
-              <span className="absolute inset-0 bg-luxora-gold translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]" />
+              Reserve Now
             </a>
           </div>
 
@@ -99,7 +89,7 @@ export default function Navbar() {
             className="lg:hidden text-white/80 hover:text-luxora-gold transition-colors duration-300 p-2"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >
-            {mobileOpen ? <HiX size={24} /> : <HiOutlineMenuAlt3 size={24} />}
+            {mobileOpen ? <HiX size={22} /> : <HiOutlineMenuAlt3 size={22} />}
           </button>
         </div>
       </motion.nav>
@@ -136,9 +126,9 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
                 transition={{ delay: navLinks.length * 0.08, duration: 0.4 }}
-                className="mt-4 px-10 py-3 border border-luxora-gold text-luxora-gold text-lg tracking-[0.15em] uppercase rounded-sm hover:bg-luxora-gold hover:text-luxora-bg transition-all duration-300"
+                className="mt-4 px-10 py-3 bg-gold-gradient text-black font-semibold text-lg tracking-[0.15em] uppercase rounded-full hover:shadow-[0_0_15px_rgba(212,175,55,0.4)] transition-all duration-300"
               >
-                Reserve Table
+                Reserve Now
               </motion.a>
             </div>
           </motion.div>
