@@ -227,7 +227,7 @@ export default function Hero({ onReserveClick }: HeroProps) {
         </motion.div>
 
         {/* ── HEADLINE ── */}
-        <div className="mb-8" style={{ perspective: "1200px" }}>
+        <div className="mb-6 sm:mb-8" style={{ perspective: "1200px" }}>
           {/* Line 1: "Elevate Every" */}
           <motion.div
             variants={staggerContainer}
@@ -239,7 +239,7 @@ export default function Hero({ onReserveClick }: HeroProps) {
               <motion.span
                 key={word}
                 variants={letterReveal}
-                className="block font-[var(--font-serif)] text-[clamp(3rem,8.5vw,7.5rem)] font-light tracking-[-0.02em] leading-[1] text-white will-change-transform"
+                className="block font-[var(--font-serif)] text-[clamp(2.3rem,7.5vw,7.5rem)] font-light tracking-[-0.02em] leading-[1.05] text-white will-change-transform"
               >
                 {word}
               </motion.span>
@@ -247,7 +247,7 @@ export default function Hero({ onReserveClick }: HeroProps) {
           </motion.div>
 
           {/* Line 2: Cycling word with gold shimmer */}
-          <div className="h-[1.05em] relative overflow-hidden mt-1">
+          <div className="h-[1.15em] sm:h-[1.05em] relative overflow-hidden mt-1">
             <AnimatePresence mode="wait">
               <motion.span
                 key={WORDS[wordIdx]}
@@ -255,7 +255,7 @@ export default function Hero({ onReserveClick }: HeroProps) {
                 animate={{ y: "0%", opacity: 1 }}
                 exit={{ y: "-110%", opacity: 0 }}
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="block font-[var(--font-serif)] text-[clamp(3rem,8.5vw,7.5rem)] font-light italic tracking-[-0.02em] leading-[1] text-gold-gradient will-change-transform"
+                className="block font-[var(--font-serif)] text-[clamp(2.3rem,7.5vw,7.5rem)] font-light italic tracking-[-0.02em] leading-[1] text-gold-gradient will-change-transform"
               >
                 {WORDS[wordIdx]}
               </motion.span>
@@ -268,7 +268,7 @@ export default function Hero({ onReserveClick }: HeroProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.9 }}
-          className="max-w-[540px] text-white/55 text-[1.05rem] font-[var(--font-jakarta)] font-light leading-[1.85] mb-14 tracking-[0.01em]"
+          className="max-w-[540px] text-white/75 text-sm sm:text-[1.05rem] font-[var(--font-jakarta)] font-light leading-[1.75] sm:leading-[1.85] mb-8 sm:mb-14 tracking-[0.01em]"
         >
           An elevated sanctuary above the metropolis — 180° panoramic views,
           Michelin-starred French-Asian fusion, and bespoke cocktails crafted
@@ -280,17 +280,17 @@ export default function Hero({ onReserveClick }: HeroProps) {
           initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.1 }}
-          className="flex flex-col sm:flex-row items-start gap-4 mb-20"
+          className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3.5 sm:gap-4 mb-12 sm:mb-20 w-full sm:w-auto"
         >
           {/* Primary CTA */}
           <button
             onClick={onReserveClick}
-            className="group relative overflow-hidden bg-luxora-gold text-luxora-bg font-semibold text-[11px] tracking-[0.28em] uppercase pl-10 pr-7 py-[18px] rounded-none hover:shadow-[0_0_50px_rgba(212,175,55,0.35)] transition-all duration-500 flex items-center gap-4 font-[var(--font-jakarta)]"
+            className="group relative overflow-hidden bg-luxora-gold text-luxora-bg font-semibold text-[11px] tracking-[0.25em] uppercase px-8 sm:pl-10 sm:pr-7 py-[16px] sm:py-[18px] rounded-none hover:shadow-[0_0_50px_rgba(212,175,55,0.35)] active:scale-[0.98] transition-all duration-500 flex items-center justify-center gap-4 font-[var(--font-jakarta)] cursor-pointer"
           >
             {/* shimmer sweep */}
             <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-[800ms] ease-in-out" />
             <span className="relative z-10">Reserve Your Table</span>
-            <span className="relative z-10 w-8 h-px bg-luxora-bg/40 group-hover:w-12 transition-all duration-500" />
+            <span className="relative z-10 w-8 h-px bg-luxora-bg/40 group-hover:w-12 transition-all duration-500 hidden sm:inline-block" />
             <HiArrowRight
               className="relative z-10 group-hover:translate-x-1 transition-transform duration-300"
               size={14}
@@ -300,11 +300,11 @@ export default function Hero({ onReserveClick }: HeroProps) {
           {/* Secondary CTA */}
           <a
             href="#story"
-            className="group text-white/60 hover:text-white text-[11px] tracking-[0.28em] uppercase transition-all duration-500 px-10 py-[18px] rounded-none border border-white/[0.12] hover:border-white/30 font-medium flex items-center gap-3 font-[var(--font-jakarta)] backdrop-blur-sm bg-white/[0.02]"
+            className="group text-white/80 hover:text-white text-[11px] tracking-[0.25em] uppercase transition-all duration-500 px-8 sm:px-10 py-[16px] sm:py-[18px] rounded-none border border-white/[0.18] hover:border-white/40 font-medium flex items-center justify-center gap-3 font-[var(--font-jakarta)] backdrop-blur-sm bg-white/[0.04] active:scale-[0.98]"
           >
-            <span>Discover</span>
+            <span>Discover Story</span>
             <HiArrowRight
-              className="opacity-0 -translate-x-3 group-hover:opacity-60 group-hover:translate-x-0 transition-all duration-500"
+              className="opacity-70 sm:opacity-0 -translate-x-1 sm:-translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500"
               size={13}
             />
           </a>
@@ -315,7 +315,7 @@ export default function Hero({ onReserveClick }: HeroProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1.4 }}
-          className="flex flex-wrap items-end gap-14 sm:gap-20"
+          className="flex flex-wrap items-end gap-8 sm:gap-20"
         >
           {[
             { value: 42, suffix: "", label: "Floors Above" },
@@ -323,10 +323,10 @@ export default function Hero({ onReserveClick }: HeroProps) {
             { value: 4.9, suffix: "", decimals: 1, label: "Guest Rating" },
           ].map((s, i) => (
             <div key={i} className="group">
-              <span className="font-[var(--font-serif)] text-[2.8rem] md:text-[3.5rem] font-light text-white leading-none tracking-tight block">
+              <span className="font-[var(--font-serif)] text-[2.2rem] sm:text-[2.8rem] md:text-[3.5rem] font-light text-white leading-none tracking-tight block">
                 <Counter to={s.value} suffix={s.suffix} decimals={s.decimals || 0} />
               </span>
-              <span className="text-white/30 text-[10px] uppercase tracking-[0.25em] font-[var(--font-jakarta)] mt-2 block">
+              <span className="text-white/50 text-[10px] uppercase tracking-[0.25em] font-[var(--font-jakarta)] mt-1.5 sm:mt-2 block">
                 {s.label}
               </span>
             </div>
@@ -339,7 +339,7 @@ export default function Hero({ onReserveClick }: HeroProps) {
         initial={{ opacity: 0, x: 60, scale: 0.95 }}
         animate={{ opacity: 1, x: 0, scale: 1 }}
         transition={{ duration: 1.2, delay: 1.5, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute right-6 xl:right-16 top-1/2 -translate-y-1/2 z-20 hidden lg:block w-[300px]"
+        className="absolute right-6 xl:right-16 top-1/2 -translate-y-1/2 z-20 hidden lg:block w-[280px] xl:w-[300px]"
       >
         <div className="relative group">
           {/* Image card */}
@@ -363,7 +363,7 @@ export default function Hero({ onReserveClick }: HeroProps) {
                 <br />
                 <span className="text-white/70">&amp; Fire Pit Cabanas</span>
               </h3>
-              <p className="text-white/40 text-[11px] font-[var(--font-jakarta)] mt-3 leading-relaxed tracking-wide">
+              <p className="text-white/50 text-[11px] font-[var(--font-jakarta)] mt-3 leading-relaxed tracking-wide">
                 5:00 – 7:00 PM · Daily
               </p>
             </div>
@@ -377,7 +377,7 @@ export default function Hero({ onReserveClick }: HeroProps) {
         <motion.div
           animate={{ y: [0, -8, 0] }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-6 -left-12 rounded-[2px] border border-white/[0.08] bg-black/60 backdrop-blur-xl px-5 py-3 flex items-center gap-3"
+          className="absolute -top-6 -left-4 xl:-left-12 rounded-[2px] border border-white/[0.12] bg-black/80 backdrop-blur-xl px-4 py-2.5 flex items-center gap-3 shadow-xl"
         >
           <div className="w-8 h-8 rounded-full bg-luxora-gold/10 flex items-center justify-center">
             <span className="text-luxora-gold text-sm">★</span>
@@ -386,7 +386,7 @@ export default function Hero({ onReserveClick }: HeroProps) {
             <p className="text-white/90 text-[11px] font-medium font-[var(--font-jakarta)] leading-tight tracking-wide">
               Michelin Guide
             </p>
-            <p className="text-white/40 text-[10px] font-[var(--font-jakarta)]">
+            <p className="text-white/50 text-[10px] font-[var(--font-jakarta)]">
               2024 Selection
             </p>
           </div>
@@ -400,10 +400,10 @@ export default function Hero({ onReserveClick }: HeroProps) {
             ease: "easeInOut",
             delay: 2,
           }}
-          className="absolute -bottom-6 -left-14 rounded-[2px] border border-white/[0.08] bg-black/60 backdrop-blur-xl px-5 py-3 flex items-center gap-3"
+          className="absolute -bottom-6 -left-6 xl:-left-14 rounded-[2px] border border-white/[0.12] bg-black/80 backdrop-blur-xl px-4 py-2.5 flex items-center gap-3 shadow-xl"
         >
-          <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
-            <span className="text-white/70 text-[11px] font-bold font-[var(--font-jakarta)]">
+          <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+            <span className="text-white/90 text-[11px] font-bold font-[var(--font-jakarta)]">
               4.9
             </span>
           </div>
@@ -411,7 +411,7 @@ export default function Hero({ onReserveClick }: HeroProps) {
             <p className="text-white/90 text-[11px] font-medium font-[var(--font-jakarta)] leading-tight tracking-wide">
               Guest Excellence
             </p>
-            <p className="text-white/40 text-[10px] font-[var(--font-jakarta)]">
+            <p className="text-white/50 text-[10px] font-[var(--font-jakarta)]">
               3,200+ Reviews
             </p>
           </div>

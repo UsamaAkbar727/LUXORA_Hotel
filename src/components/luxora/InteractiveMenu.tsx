@@ -165,12 +165,12 @@ export default function InteractiveMenu({ onReserveClick }: InteractiveMenuProps
     <section id="cuisine" className="py-24 md:py-32 relative bg-luxora-bg overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-6 md:px-10 lg:px-16 relative">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 md:mb-12">
           <div>
-            <span className="text-luxora-gold text-xs tracking-[0.3em] uppercase font-[var(--font-inter)] flex items-center gap-2">
+            <span className="text-luxora-gold text-xs tracking-[0.3em] uppercase font-[var(--font-inter)] flex items-center gap-2 font-semibold">
               <HiOutlineSparkles /> Curated Culinary Arts
             </span>
-            <h2 className="font-[var(--font-playfair)] text-4xl md:text-5xl lg:text-6xl font-bold mt-2 text-white">
+            <h2 className="font-[var(--font-playfair)] text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mt-2 text-white">
               Chef&apos;s Culinary & <span className="text-gold-gradient">Mixology Menu</span>
             </h2>
           </div>
@@ -178,7 +178,7 @@ export default function InteractiveMenu({ onReserveClick }: InteractiveMenuProps
           {/* Tasting Drawer Trigger */}
           <button
             onClick={() => setIsDrawerOpen(true)}
-            className="relative self-start md:self-auto flex items-center gap-3 bg-white/5 border border-luxora-gold/30 hover:border-luxora-gold px-6 py-3 rounded-full text-xs uppercase tracking-wider font-semibold text-white transition-all"
+            className="relative self-start md:self-auto flex items-center justify-center gap-3 bg-white/5 border border-luxora-gold/30 hover:border-luxora-gold px-6 py-3.5 rounded-full text-xs uppercase tracking-wider font-semibold text-white transition-all active:scale-[0.98] cursor-pointer min-h-[44px]"
           >
             <HiOutlineShoppingBag className="text-luxora-gold" size={18} />
             <span>Tasting Wishlist ({tastingList.length})</span>
@@ -190,36 +190,38 @@ export default function InteractiveMenu({ onReserveClick }: InteractiveMenuProps
           </button>
         </div>
 
-        {/* Category Tabs */}
-        <div className="flex items-center gap-3 overflow-x-auto scrollbar-hide pb-4 border-b border-white/10 mb-8">
-          {categories.map((cat) => (
-            <button
-              key={cat.key}
-              onClick={() => setActiveCategory(cat.key as any)}
-              className={`px-6 py-3 rounded-full text-xs uppercase tracking-[0.15em] font-medium whitespace-nowrap transition-all duration-300 ${
-                activeCategory === cat.key
-                  ? "bg-gold-gradient text-black font-semibold shadow-[0_0_15px_rgba(212,175,55,0.3)]"
-                  : "bg-white/5 text-white/70 hover:text-white hover:bg-white/10"
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
+        {/* Category Tabs with Mobile Touch Scroll Indicator */}
+        <div className="relative mb-8">
+          <div className="flex items-center gap-2.5 sm:gap-3 overflow-x-auto scrollbar-hide pb-3 pt-1 border-b border-white/10 -mx-6 px-6 sm:mx-0 sm:px-0">
+            {categories.map((cat) => (
+              <button
+                key={cat.key}
+                onClick={() => setActiveCategory(cat.key as any)}
+                className={`px-5 sm:px-6 py-3 rounded-full text-[11px] sm:text-xs uppercase tracking-[0.15em] font-medium whitespace-nowrap transition-all duration-300 active:scale-95 cursor-pointer ${
+                  activeCategory === cat.key
+                    ? "bg-gold-gradient text-black font-semibold shadow-[0_0_15px_rgba(212,175,55,0.3)]"
+                    : "bg-white/5 text-white/80 hover:text-white hover:bg-white/10"
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Dietary Filters */}
         <div className="flex items-center gap-2 flex-wrap mb-10 text-xs">
-          <span className="text-white/40 mr-2 uppercase tracking-wider text-[11px] font-[var(--font-inter)]">
+          <span className="text-white/60 mr-2 uppercase tracking-wider text-[11px] font-[var(--font-inter)] font-semibold">
             Filter by:
           </span>
           {dietaryFilters.map((filter) => (
             <button
               key={filter}
               onClick={() => setSelectedDietary(filter)}
-              className={`px-4 py-1.5 rounded-full border text-[11px] uppercase tracking-wider transition-all ${
+              className={`px-4 py-2 rounded-full border text-[11px] uppercase tracking-wider transition-all active:scale-95 cursor-pointer min-h-[38px] ${
                 selectedDietary === filter
-                  ? "border-luxora-gold text-luxora-gold bg-luxora-gold/10"
-                  : "border-white/10 text-white/50 hover:border-white/20 hover:text-white"
+                  ? "border-luxora-gold text-luxora-gold bg-luxora-gold/15 font-semibold"
+                  : "border-white/15 text-white/70 hover:border-white/30 hover:text-white"
               }`}
             >
               {filter}

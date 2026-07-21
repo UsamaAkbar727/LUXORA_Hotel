@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiX, HiCheckCircle, HiOutlineCalendar, HiOutlineClock, HiOutlineUsers, HiOutlinePhone } from "react-icons/hi";
 
@@ -72,11 +72,29 @@ export default function ReservationModal({ isOpen, onClose }: ReservationModalPr
     onClose();
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        resetAndClose();
+      }
+    };
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      window.addEventListener("keydown", handleKeyDown);
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 overflow-y-auto">
+      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-6 overflow-y-auto">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -88,11 +106,11 @@ export default function ReservationModal({ isOpen, onClose }: ReservationModalPr
 
         {/* Modal Window */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          initial={{ opacity: 0, scale: 0.95, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
+          exit={{ opacity: 0, scale: 0.95, y: 30 }}
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="relative w-full max-w-3xl bg-luxora-card border border-luxora-gold/20 rounded-3xl p-6 md:p-10 luxury-shadow z-10 my-8 overflow-hidden"
+          className="relative w-full max-w-3xl bg-luxora-card border-t sm:border border-luxora-gold/30 rounded-t-3xl sm:rounded-3xl p-5 sm:p-8 md:p-10 luxury-shadow z-10 my-0 sm:my-8 max-h-[92vh] sm:max-h-[88vh] overflow-y-auto flex flex-col justify-between"
         >
           {/* Top Decorative Glow */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-1 bg-gradient-to-r from-transparent via-luxora-gold to-transparent" />
@@ -100,18 +118,18 @@ export default function ReservationModal({ isOpen, onClose }: ReservationModalPr
           {/* Close Button */}
           <button
             onClick={resetAndClose}
-            className="absolute top-6 right-6 p-2 rounded-full text-white/50 hover:text-white hover:bg-white/10 transition-all duration-200"
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2.5 min-w-[40px] min-h-[40px] flex items-center justify-center rounded-full text-white/70 hover:text-white hover:bg-white/10 active:scale-95 transition-all duration-200 cursor-pointer"
             aria-label="Close modal"
           >
             <HiX size={20} />
           </button>
 
           {/* Header */}
-          <div className="mb-6">
-            <span className="text-luxora-gold text-xs tracking-[0.25em] uppercase font-[var(--font-inter)]">
+          <div className="mb-4 sm:mb-6 pr-8">
+            <span className="text-luxora-gold text-[10px] sm:text-xs tracking-[0.25em] uppercase font-[var(--font-inter)] font-semibold">
               Direct Concierge Booking
             </span>
-            <h2 className="font-[var(--font-playfair)] text-2xl md:text-3xl font-bold mt-1 text-white">
+            <h2 className="font-[var(--font-playfair)] text-xl sm:text-2xl md:text-3xl font-bold mt-1 text-white">
               Reserve Your <span className="text-gold-gradient">LUXORA Experience</span>
             </h2>
           </div>

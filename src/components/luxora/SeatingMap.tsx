@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineLocationMarker, HiCheckCircle, HiUsers } from "react-icons/hi";
 
@@ -70,10 +70,18 @@ interface SeatingMapProps {
 export default function SeatingMap({ onReserveZone }: SeatingMapProps) {
   const [activeZone, setActiveZone] = useState<ZoneInfo>(zones[0]);
   const [currentImg, setCurrentImg] = useState<string>(zones[0].image);
+  const detailRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setCurrentImg(activeZone.image);
   }, [activeZone]);
+
+  const handleSelectZone = (zone: ZoneInfo) => {
+    setActiveZone(zone);
+    if (typeof window !== "undefined" && window.innerWidth < 1024 && detailRef.current) {
+      detailRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  };
 
   const handleImageError = () => {
     if (currentImg !== activeZone.fallbackImage) {
@@ -84,26 +92,26 @@ export default function SeatingMap({ onReserveZone }: SeatingMapProps) {
   };
 
   return (
-    <section id="venue" className="py-24 md:py-32 relative bg-luxora-bg overflow-hidden border-t border-white/5">
+    <section id="venue" className="py-20 md:py-32 relative bg-luxora-bg overflow-hidden border-t border-white/5">
       <div className="max-w-[1440px] mx-auto px-6 md:px-10 lg:px-16 relative">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-luxora-gold text-xs tracking-[0.3em] uppercase font-[var(--font-inter)]">
+        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+          <span className="text-luxora-gold text-xs tracking-[0.3em] uppercase font-[var(--font-inter)] font-semibold">
             Floor Plan & Layout
           </span>
-          <h2 className="font-[var(--font-playfair)] text-4xl md:text-5xl font-bold mt-2 text-white">
+          <h2 className="font-[var(--font-playfair)] text-3xl sm:text-4xl md:text-5xl font-bold mt-2 text-white">
             Explore <span className="text-gold-gradient">Rooftop Seating Zones</span>
           </h2>
-          <p className="text-white/60 text-sm mt-4 leading-relaxed font-[var(--font-inter)]">
+          <p className="text-white/70 text-sm mt-3 sm:mt-4 leading-relaxed font-[var(--font-inter)] max-w-2xl mx-auto">
             Select an area on Level 42 to preview seating, minimum spend requirements, and atmospheric views.
           </p>
         </div>
 
         {/* Layout Container */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
           {/* Zone Selector Buttons */}
-          <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
-            <h3 className="text-xs uppercase tracking-[0.2em] font-semibold text-white/40 mb-2 font-[var(--font-inter)]">
+          <div className="lg:col-span-5 flex flex-col justify-between space-y-3.5 sm:space-y-4">
+            <h3 className="text-xs uppercase tracking-[0.2em] font-semibold text-white/50 mb-1 font-[var(--font-inter)]">
               Select Rooftop Area:
             </h3>
 
@@ -112,32 +120,32 @@ export default function SeatingMap({ onReserveZone }: SeatingMapProps) {
               return (
                 <button
                   key={zone.id}
-                  onClick={() => setActiveZone(zone)}
-                  className={`w-full text-left p-5 rounded-2xl border transition-all duration-300 flex items-center justify-between group ${
+                  onClick={() => handleSelectZone(zone)}
+                  className={`w-full text-left p-4 sm:p-5 rounded-2xl border transition-all duration-300 flex items-center justify-between group active:scale-[0.98] cursor-pointer ${
                     isSelected
-                      ? "border-luxora-gold bg-luxora-gold/10 shadow-[0_0_20px_rgba(212,175,55,0.15)]"
+                      ? "border-luxora-gold bg-luxora-gold/15 shadow-[0_0_20px_rgba(212,175,55,0.15)]"
                       : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10"
                   }`}
                 >
                   <div>
                     <div className="flex items-center gap-2">
-                      <HiOutlineLocationMarker className={isSelected ? "text-luxora-gold" : "text-white/40"} size={18} />
-                      <h4 className="font-[var(--font-playfair)] text-lg font-bold text-white group-hover:text-luxora-gold transition-colors">
+                      <HiOutlineLocationMarker className={isSelected ? "text-luxora-gold" : "text-white/50"} size={18} />
+                      <h4 className="font-[var(--font-playfair)] text-base sm:text-lg font-bold text-white group-hover:text-luxora-gold transition-colors">
                         {zone.name}
                       </h4>
                     </div>
-                    <p className="text-white/50 text-xs mt-1 ml-6 font-[var(--font-inter)]">
+                    <p className="text-white/60 text-xs mt-1 ml-6 font-[var(--font-inter)]">
                       {zone.atmosphere} • <span className="text-luxora-gold font-medium">{zone.minSpend}</span>
                     </p>
                   </div>
-                  {isSelected && <HiCheckCircle className="text-luxora-gold" size={22} />}
+                  {isSelected && <HiCheckCircle className="text-luxora-gold shrink-0 ml-2" size={22} />}
                 </button>
               );
             })}
           </div>
 
           {/* Detailed Zone View Card */}
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-7" ref={detailRef}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeZone.id}
