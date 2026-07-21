@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { HiX, HiCheckCircle, HiOutlineCalendar, HiOutlineClock, HiOutlineUsers, HiOutlineSparkles, HiOutlineLocationMarker, HiOutlinePhone } from "react-icons/hi";
+import { HiX, HiCheckCircle, HiOutlineCalendar, HiOutlineClock, HiOutlineUsers, HiOutlinePhone } from "react-icons/hi";
 
 interface ReservationModalProps {
   isOpen: boolean;
@@ -16,7 +16,8 @@ const seatingZones = [
     desc: "Unobstructed edge seating with 180° panoramic city views",
     minSpend: "$150 / person",
     badge: "Most Popular",
-    image: "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?w=500&q=80",
+    image: "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?auto=format&fit=crop&w=600&q=80",
+    fallback: "/luxora_hero_bg.png",
   },
   {
     id: "vip-booth",
@@ -24,7 +25,8 @@ const seatingZones = [
     desc: "Plush private booth dining with dedicated mixologist service",
     minSpend: "$200 / person",
     badge: "Exclusive",
-    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&q=80",
+    image: "https://images.unsplash.com/photo-1572116469696-31de0f17cc34?auto=format&fit=crop&w=600&q=80",
+    fallback: "/luxora_hero_bg.png",
   },
   {
     id: "sunset-deck",
@@ -32,7 +34,8 @@ const seatingZones = [
     desc: "Open-air wooden deck perfect for sunset cocktails & appetizers",
     minSpend: "$100 / person",
     badge: "Sunset View",
-    image: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=500&q=80",
+    image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80",
+    fallback: "/luxora_hero_bg.png",
   },
   {
     id: "chefs-counter",
@@ -40,7 +43,8 @@ const seatingZones = [
     desc: "Front-row seats to Chef Marcus Vance's open kitchen culinary magic",
     minSpend: "$250 / person",
     badge: "Gastronomic",
-    image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&q=80",
+    image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80",
+    fallback: "/luxora_hero_bg.png",
   },
 ];
 
@@ -153,8 +157,15 @@ export default function ReservationModal({ isOpen, onClose }: ReservationModalPr
                         : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10"
                     }`}
                   >
-                    <div className="h-28 -mx-4 -mt-4 mb-3 overflow-hidden relative">
-                      <img src={zone.image} alt={zone.name} className="w-full h-full object-cover" />
+                    <div className="h-28 -mx-4 -mt-4 mb-3 overflow-hidden relative bg-white/5">
+                      <img
+                        src={zone.image}
+                        alt={zone.name}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = zone.fallback;
+                        }}
+                        className="w-full h-full object-cover"
+                      />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                       <span className="absolute top-2 right-2 px-2.5 py-1 rounded-full text-[10px] uppercase tracking-wider font-semibold bg-black/60 text-luxora-gold border border-luxora-gold/30">
                         {zone.badge}
@@ -169,10 +180,10 @@ export default function ReservationModal({ isOpen, onClose }: ReservationModalPr
                         <HiCheckCircle className="text-luxora-gold" size={20} />
                       )}
                     </div>
-                    <p className="text-white/50 text-xs mt-1 leading-relaxed">
+                    <p className="text-white/50 text-xs mt-1 leading-relaxed font-[var(--font-inter)]">
                       {zone.desc}
                     </p>
-                    <div className="mt-3 text-xs font-medium text-luxora-gold">
+                    <div className="mt-3 text-xs font-medium text-luxora-gold font-[var(--font-inter)]">
                       Min. Spend: {zone.minSpend}
                     </div>
                   </div>
@@ -350,7 +361,7 @@ export default function ReservationModal({ isOpen, onClose }: ReservationModalPr
                 <h3 className="font-[var(--font-playfair)] text-3xl font-bold text-white mt-1">
                   We Await Your Arrival, {name || "Esteemed Guest"}
                 </h3>
-                <p className="text-white/60 text-sm max-w-md mx-auto mt-2 leading-relaxed">
+                <p className="text-white/60 text-sm max-w-md mx-auto mt-2 leading-relaxed font-[var(--font-inter)]">
                   Your table reservation has been logged with our VIP Concierge team. A confirmation message has been dispatched to <span className="text-white font-medium">{email}</span>.
                 </p>
               </div>

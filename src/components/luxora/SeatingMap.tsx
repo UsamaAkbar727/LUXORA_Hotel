@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineLocationMarker, HiCheckCircle, HiUsers } from "react-icons/hi";
 
@@ -12,6 +12,7 @@ interface ZoneInfo {
   atmosphere: string;
   description: string;
   image: string;
+  fallbackImage: string;
   features: string[];
 }
 
@@ -23,7 +24,8 @@ const zones: ZoneInfo[] = [
     minSpend: "$150 / person",
     atmosphere: "Open-Air & Panoramic",
     description: "Situated directly against the glass perimeter on Level 42. Features unobstructed 180° views of the shimmering city skyline.",
-    image: "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?auto=format&fit=crop&w=1200&q=80",
+    fallbackImage: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
     features: ["Direct Skyline Edge Glass View", "Heated Ambient Floor Lamps", "Dedicated Sommelier Service"],
   },
   {
@@ -33,7 +35,8 @@ const zones: ZoneInfo[] = [
     minSpend: "$200 / person",
     atmosphere: "Intimate & Ultra-Luxury",
     description: "Deep button-tufted leather booth seating enveloped in sheer velvet curtains for privacy and bespoke cocktail cart service.",
-    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1572116469696-31de0f17cc34?auto=format&fit=crop&w=1200&q=80",
+    fallbackImage: "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1200&q=80",
     features: ["Personal Mixologist & Cart", "Privacy Curtains", "Champagne Chiller Built-in"],
   },
   {
@@ -43,7 +46,8 @@ const zones: ZoneInfo[] = [
     minSpend: "$90 / person",
     atmosphere: "Vibrant & Musical",
     description: "Polished Italian Nero Marquina marble high-tops adjacent to the live DJ booth and illuminated onyx cocktail bar.",
-    image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80",
+    fallbackImage: "https://images.unsplash.com/photo-1560624052-449f5ddf0c31?auto=format&fit=crop&w=1200&q=80",
     features: ["Direct View of Live DJ Stage", "Fast Bar Access", "Ambient Fire Pillar Feature"],
   },
   {
@@ -53,7 +57,8 @@ const zones: ZoneInfo[] = [
     minSpend: "$120 / person",
     atmosphere: "Sunset Lounge & Firelight",
     description: "Relaxed low-slung teak cabanas with linear gas fire pits, ideal for sunset champagne toasts and sharing tapas plates.",
-    image: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80",
+    fallbackImage: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=1200&q=80",
     features: ["Linear Gas Fire Pit", "Lounge Sofa Seating", "Sunset Horizon View"],
   },
 ];
@@ -64,6 +69,19 @@ interface SeatingMapProps {
 
 export default function SeatingMap({ onReserveZone }: SeatingMapProps) {
   const [activeZone, setActiveZone] = useState<ZoneInfo>(zones[0]);
+  const [currentImg, setCurrentImg] = useState<string>(zones[0].image);
+
+  useEffect(() => {
+    setCurrentImg(activeZone.image);
+  }, [activeZone]);
+
+  const handleImageError = () => {
+    if (currentImg !== activeZone.fallbackImage) {
+      setCurrentImg(activeZone.fallbackImage);
+    } else {
+      setCurrentImg("/luxora_hero_bg.png");
+    }
+  };
 
   return (
     <section id="venue" className="py-24 md:py-32 relative bg-luxora-bg overflow-hidden border-t border-white/5">
@@ -81,9 +99,9 @@ export default function SeatingMap({ onReserveZone }: SeatingMapProps) {
           </p>
         </div>
 
-        {/* Interactive Interactive Layout Container */}
+        {/* Layout Container */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          {/* Zone Selector Buttons / Visual Map */}
+          {/* Zone Selector Buttons */}
           <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
             <h3 className="text-xs uppercase tracking-[0.2em] font-semibold text-white/40 mb-2 font-[var(--font-inter)]">
               Select Rooftop Area:
@@ -129,15 +147,16 @@ export default function SeatingMap({ onReserveZone }: SeatingMapProps) {
                 transition={{ duration: 0.4 }}
                 className="h-full rounded-3xl bg-luxora-card border border-luxora-gold/20 p-6 md:p-8 flex flex-col justify-between luxury-shadow overflow-hidden relative"
               >
-                {/* Background Image Preview */}
-                <div className="relative h-64 md:h-72 -mx-6 -mt-6 md:-mx-8 md:-mt-8 mb-6 overflow-hidden">
+                {/* Image Preview with Automatic Fallback */}
+                <div className="relative h-64 md:h-72 -mx-6 -mt-6 md:-mx-8 md:-mt-8 mb-6 overflow-hidden bg-white/5">
                   <img
-                    src={activeZone.image}
+                    src={currentImg}
                     alt={activeZone.name}
-                    className="w-full h-full object-cover"
+                    onError={handleImageError}
+                    className="w-full h-full object-cover transition-opacity duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-luxora-card via-luxora-card/40 to-transparent" />
-                  <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-md border border-luxora-gold/30 px-3 py-1.5 rounded-full text-xs font-semibold text-luxora-gold uppercase tracking-wider flex items-center gap-2">
+                  <div className="absolute inset-0 bg-gradient-to-t from-luxora-card via-luxora-card/30 to-transparent" />
+                  <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-md border border-luxora-gold/30 px-3 py-1.5 rounded-full text-xs font-semibold text-luxora-gold uppercase tracking-wider flex items-center gap-2 shadow-lg">
                     <HiUsers /> {activeZone.capacity}
                   </div>
                 </div>
@@ -159,13 +178,13 @@ export default function SeatingMap({ onReserveZone }: SeatingMapProps) {
 
                   {/* Highlights List */}
                   <div className="space-y-2 pt-2">
-                    <span className="text-xs uppercase text-white/40 tracking-wider font-semibold block">
+                    <span className="text-xs uppercase text-white/40 tracking-wider font-semibold block font-[var(--font-inter)]">
                       Zone Highlights:
                     </span>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {activeZone.features.map((feat) => (
                         <div key={feat} className="flex items-center gap-2 text-xs text-white/80 font-[var(--font-inter)]">
-                          <span className="w-1.5 h-1.5 rounded-full bg-luxora-gold" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-luxora-gold flex-shrink-0" />
                           {feat}
                         </div>
                       ))}
@@ -176,7 +195,7 @@ export default function SeatingMap({ onReserveZone }: SeatingMapProps) {
                 {/* Bottom Action */}
                 <div className="pt-6 border-t border-white/10 mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
                   <div>
-                    <span className="text-white/40 text-xs uppercase block">Minimum Spend Requirement</span>
+                    <span className="text-white/40 text-xs uppercase block font-[var(--font-inter)]">Minimum Spend Requirement</span>
                     <span className="text-luxora-gold text-lg font-mono font-bold">{activeZone.minSpend}</span>
                   </div>
                   <button
