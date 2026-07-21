@@ -49,9 +49,8 @@ export default function Navbar({ onReserveClick }: NavbarProps) {
         className="fixed top-0 left-0 right-0 z-50 flex justify-center w-full transition-all duration-500 pointer-events-none"
       >
         <div
-          className={`w-[92%] max-w-6xl mt-5 px-6 md:px-8 py-3 rounded-full border border-luxora-gold/20 glass relative pointer-events-auto transition-all duration-500 luxury-shadow flex items-center justify-between ${
-            scrolled ? "bg-luxora-bg/90 py-2.5 shadow-xl border-luxora-gold/30" : "bg-luxora-bg/50 py-3"
-          }`}
+          className={`w-[92%] max-w-6xl mt-5 px-6 md:px-8 py-3 rounded-full border border-luxora-gold/20 glass relative pointer-events-auto transition-all duration-500 luxury-shadow flex items-center justify-between ${scrolled ? "bg-luxora-bg/90 py-2.5 shadow-xl border-luxora-gold/30" : "bg-luxora-bg/50 py-3"
+            }`}
         >
           {/* Top golden glowing accent */}
           <div className="absolute top-[-1px] left-1/2 -translate-x-1/2 w-48 h-[2px] bg-gradient-to-r from-transparent via-luxora-gold/90 to-transparent blur-[0.5px]" />

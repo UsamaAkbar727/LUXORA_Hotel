@@ -32,13 +32,13 @@ export default function Home() {
     <main className="min-h-screen flex flex-col bg-luxora-bg selection:bg-luxora-gold selection:text-black">
       <Navbar onReserveClick={openReservation} />
       <Hero onReserveClick={openReservation} />
-      
+
       <div id="story">
         <OurStory />
       </div>
 
       <FeaturedExperiences />
-      
+
       <InteractiveMenu onReserveClick={openReservation} />
 
       <SeatingMap onReserveZone={() => openReservation()} />

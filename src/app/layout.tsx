@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
+import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-serif",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -17,7 +18,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "LUXORA | Ultra-Luxury Rooftop Lounge & Fine Dining",
+  title: "LUXORA | Rooftop Lounge & Fine Dining • Level 42",
   description:
     "Level 42 Rooftop Sanctuary featuring 180° panoramic skyline views, Michelin-inspired gastronomy by Chef Marcus Vance, and master mixology.",
   keywords: [
@@ -26,7 +27,6 @@ export const metadata: Metadata = {
     "VIP rooftop venue",
     "Level 42 skyline bar",
     "signature mixology",
-    "exclusive private galas",
   ],
   icons: {
     icon: "/favicon.svg",
@@ -41,7 +41,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
       <body
-        className={`${outfit.variable} ${plusJakarta.variable} antialiased bg-luxora-bg text-luxora-white overflow-x-hidden font-sans`}
+        className={`${cormorant.variable} ${plusJakarta.variable} antialiased bg-luxora-bg text-luxora-white overflow-x-hidden font-sans`}
       >
         {children}
       </body>
