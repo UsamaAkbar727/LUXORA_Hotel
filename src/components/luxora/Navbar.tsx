@@ -3,18 +3,23 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineMenuAlt3, HiX } from "react-icons/hi";
-import { FiInstagram, FiFacebook, FiTwitter } from "react-icons/fi";
+import AmbientPlayer from "@/components/luxora/AmbientPlayer";
 
 const navLinks = [
   { label: "Home", href: "#" },
-  { label: "Venue", href: "#venue" },
+  { label: "Story", href: "#story" },
+  { label: "Menu", href: "#cuisine" },
+  { label: "Floor Plan", href: "#venue" },
   { label: "Events", href: "#events" },
-  { label: "Cuisine", href: "#cuisine" },
-  { label: "Drinks", href: "#drinks" },
-  { label: "Book Now", href: "#reservation" },
+  { label: "Cocktails", href: "#drinks" },
+  { label: "FAQ", href: "#faq" },
 ];
 
-export default function Navbar() {
+interface NavbarProps {
+  onReserveClick?: () => void;
+}
+
+export default function Navbar({ onReserveClick }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -44,13 +49,12 @@ export default function Navbar() {
         className="fixed top-0 left-0 right-0 z-50 flex justify-center w-full transition-all duration-500 pointer-events-none"
       >
         <div
-          className={`w-[92%] max-w-6xl mt-6 px-6 md:px-8 py-3 rounded-full border border-luxora-gold/20 glass relative pointer-events-auto transition-all duration-500 luxury-shadow flex items-center justify-between ${
-            scrolled ? "bg-luxora-bg/85 py-2 shadow-lg border-luxora-gold/30" : "bg-luxora-bg/40 py-3"
+          className={`w-[92%] max-w-6xl mt-5 px-6 md:px-8 py-3 rounded-full border border-luxora-gold/20 glass relative pointer-events-auto transition-all duration-500 luxury-shadow flex items-center justify-between ${
+            scrolled ? "bg-luxora-bg/90 py-2.5 shadow-xl border-luxora-gold/30" : "bg-luxora-bg/50 py-3"
           }`}
         >
-          {/* Top golden glowing line/accent at the center of the navbar */}
+          {/* Top golden glowing accent */}
           <div className="absolute top-[-1px] left-1/2 -translate-x-1/2 w-48 h-[2px] bg-gradient-to-r from-transparent via-luxora-gold/90 to-transparent blur-[0.5px]" />
-          <div className="absolute top-[-8px] left-1/2 -translate-x-1/2 w-36 h-6 bg-luxora-gold/10 blur-md rounded-full pointer-events-none" />
 
           {/* Logo */}
           <a href="#" className="relative group flex items-center">
@@ -60,12 +64,12 @@ export default function Navbar() {
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+          <div className="hidden lg:flex items-center gap-5 xl:gap-7">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className="relative text-xs tracking-[0.15em] uppercase text-white/80 hover:text-luxora-gold transition-colors duration-300 group font-medium"
+                className="relative text-[11px] tracking-[0.15em] uppercase text-white/80 hover:text-luxora-gold transition-colors duration-300 group font-medium"
               >
                 {link.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-luxora-gold group-hover:w-full transition-all duration-500" />
@@ -73,24 +77,28 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center">
-            <a
-              href="#reservation"
-              className="bg-gold-gradient text-black font-semibold text-xs tracking-[0.15em] uppercase px-6 py-2.5 rounded-full hover:shadow-[0_0_15px_rgba(212,175,55,0.4)] hover:scale-[1.03] transition-all duration-300"
+          {/* Right Controls (Ambient Audio + Reserve CTA) */}
+          <div className="hidden lg:flex items-center gap-4">
+            <AmbientPlayer />
+            <button
+              onClick={onReserveClick}
+              className="bg-gold-gradient text-black font-semibold text-xs tracking-[0.15em] uppercase px-5 py-2 rounded-full hover:shadow-[0_0_15px_rgba(212,175,55,0.4)] hover:scale-[1.03] transition-all duration-300"
             >
-              Reserve Now
-            </a>
+              Reserve Table
+            </button>
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden text-white/80 hover:text-luxora-gold transition-colors duration-300 p-2"
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          >
-            {mobileOpen ? <HiX size={22} /> : <HiOutlineMenuAlt3 size={22} />}
-          </button>
+          <div className="flex items-center gap-3 lg:hidden">
+            <AmbientPlayer />
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="text-white/80 hover:text-luxora-gold transition-colors duration-300 p-2"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            >
+              {mobileOpen ? <HiX size={22} /> : <HiOutlineMenuAlt3 size={22} />}
+            </button>
+          </div>
         </div>
       </motion.nav>
 
@@ -102,9 +110,9 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="fixed inset-0 z-40 bg-luxora-bg/95 backdrop-blur-xl lg:hidden"
+            className="fixed inset-0 z-40 bg-luxora-bg/95 backdrop-blur-xl lg:hidden flex flex-col justify-center items-center"
           >
-            <div className="flex flex-col items-center justify-center h-full gap-8">
+            <div className="flex flex-col items-center gap-6">
               {navLinks.map((link, i) => (
                 <motion.a
                   key={link.label}
@@ -113,23 +121,25 @@ export default function Navbar() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  transition={{ delay: i * 0.08, duration: 0.4 }}
-                  className="text-3xl font-[var(--font-playfair)] tracking-[0.1em] text-white/80 hover:text-luxora-gold transition-colors duration-300"
+                  transition={{ delay: i * 0.06, duration: 0.4 }}
+                  className="text-2xl font-[var(--font-playfair)] tracking-[0.1em] text-white/90 hover:text-luxora-gold transition-colors"
                 >
                   {link.label}
                 </motion.a>
               ))}
-              <motion.a
-                href="#reservation"
-                onClick={() => setMobileOpen(false)}
+              <motion.button
+                onClick={() => {
+                  setMobileOpen(false);
+                  if (onReserveClick) onReserveClick();
+                }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
-                transition={{ delay: navLinks.length * 0.08, duration: 0.4 }}
-                className="mt-4 px-10 py-3 bg-gold-gradient text-black font-semibold text-lg tracking-[0.15em] uppercase rounded-full hover:shadow-[0_0_15px_rgba(212,175,55,0.4)] transition-all duration-300"
+                transition={{ delay: navLinks.length * 0.06, duration: 0.4 }}
+                className="mt-4 px-9 py-3 bg-gold-gradient text-black font-semibold text-sm tracking-[0.15em] uppercase rounded-full hover:shadow-[0_0_15px_rgba(212,175,55,0.4)] transition-all"
               >
-                Reserve Now
-              </motion.a>
+                Reserve Table Now
+              </motion.button>
             </div>
           </motion.div>
         )}
